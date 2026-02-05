@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Branding Generator – Luo sonic logo ja soundscape 3 minuutissa</title>
+    <style>
+        :root {
+            --color-primary: #21808d;
+            --color-primary-hover: #1d747f;
+            --color-primary-active: #196871;
+            --color-secondary: rgba(94, 82, 64, 0.12);
+            --color-secondary-hover: rgba(94, 82, 64, 0.2);
+            --color-bg: #fcfcf9;
+            --color-surface: #ffffff;
+            --color-text: #134252;
+            --color-text-secondary: #626c71;
+            --color-border: rgba(94, 82, 64, 0.2);
+            --color-success: #21808d;
+            --color-accent: #e6815f;
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --radius-base: 8px;
+            --radius-lg: 12px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--color-text);
+            background: var(--color-bg);
+            padding: 2rem 1rem;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem;
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .generator-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 2rem;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+            font-size: 1.125rem;
+        }
+        
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-base);
+            font-size: 1rem;
+            font-family: var(--font-family);
+            transition: border-color 0.3s ease;
+        }
+        
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .mood-inputs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        .style-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        .style-card {
+            padding: 1.5rem;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .style-card:hover {
+            border-color: var(--color-primary);
+            background: var(--color-secondary);
+        }
+        
+        .style-card.selected {
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+            color: white;
+        }
+        
+        .style-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .style-card p {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-base);
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn:active {
+            background: var(--color-primary-active);
+            transform: translateY(0);
+        }
+        
+        .output-section {
+            display: none;
+            margin-top: 2rem;
+        }
+        
+        .output-section.visible {
+            display: block;
+        }
+        
+        .output-card {
+            background: #f0f9ff;
+            border: 2px solid var(--color-primary);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .output-card h3 {
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .prompt-output {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius-base);
+            font-family: monospace;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid var(--color-border);
+        }
+        
+        .copy-btn {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: var(--color-primary-hover);
+        }
+        
+        .copy-btn.copied {
+            background: var(--color-success);
+        }
+        
+        .hint {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin-top: 0.5rem;
+        }
+        
+        .language-toggle {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .language-toggle button {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--color-border);
+            background: white;
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .language-toggle button.active {
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .mood-inputs,
+            .style-options {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .hero,
+            .generator-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🎵 Audio Branding Generator</h1>
+            <p class="subtitle">Luo pro-tason sonic logo ja brand soundscape 3 minuutissa</p>
+        </div>
+        
+        <div class="generator-card">
+            <form id="brandingForm">
+                <div class="form-group">
+                    <label for="brandName">Brändin nimi (valinnainen)</label>
+                    <input type="text" id="brandName" placeholder="Esim. Black Needle Ink">
+                    <p class="hint">Jätä tyhjäksi jos et halua nimeä promptiin</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="brandDescription">Lyhyt kuvaus brändistä *</label>
+                    <textarea id="brandDescription" required placeholder="Esim. moderni underground-blackwork-tatuointistudio Helsingissä"></textarea>
+                    <p class="hint">Kerro lyhyesti mitä brändi tekee ja millainen se on</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>3 fiilissanaa *</label>
+                    <div class="mood-inputs">
+                        <input type="text" id="mood1" required placeholder="Esim. underground">
+                        <input type="text" id="mood2" required placeholder="Esim. black">
+                        <input type="text" id="mood3" required placeholder="Esim. metal">
+                    </div>
+                    <p class="hint">Kolme sanaa jotka kuvaavat brändin tunnelmaa</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Valitse tyyli *</label>
+                    <div class="style-options">
+                        <div class="style-card" data-style="Soft Clean">
+                            <h3>☁️ Soft Clean</h3>
+                            <p>Pehmeä, lämmin, minimal</p>
+                        </div>
+                        <div class="style-card" data-style="Modern Tech">
+                            <h3>🔮 Modern Tech</h3>
+                            <p>Moderni, digitaalinen, futuristinen</p>
+                        </div>
+                        <div class="style-card" data-style="Urban Energy">
+                            <h3>🎧 Urban Energy</h3>
+                            <p>Rytminen, urbaani, luova</p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selectedStyle" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="useCase">Soundscapen käyttö *</label>
+                    <input type="text" id="useCase" required placeholder="Esim. odotusmusiikki, YouTube-intro, Reels-tausta">
+                    <p class="hint">Mihin aiot käyttää soundscapea?</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="duration">Soundscapen kesto *</label>
+                    <select id="duration" required>
+                        <option value="">Valitse kesto</option>
+                        <option value="30">30 sekuntia</option>
+                        <option value="60" selected>60 sekuntia</option>
+                        <option value="90">90 sekuntia</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Kieli *</label>
+                    <div class="language-toggle">
+                        <button type="button" class="lang-btn active" data-lang="FI">🇫🇮 Suomi</button>
+                        <button type="button" class="lang-btn" data-lang="EN">🇬🇧 English</button>
+                        <button type="button" class="lang-btn" data-lang="FI+EN">🌍 Molemmat</button>
+                    </div>
+                    <input type="hidden" id="selectedLanguage" value="FI">
+                </div>
+                
+                <button type="submit" class="btn">🚀 Generoi Promptit</button>
+            </form>
+        </div>
+        
+        <div class="output-section" id="outputSection">
+            <div class="output-card">
+                <h3>🎵 Sonic Logo Prompt</h3>
+                <div class="prompt-output" id="sonicLogoOutput"></div>
+                <button class="copy-btn" onclick="copyToClipboard('sonicLogoOutput', this)">📋 Kopioi</button>
+            </div>
+            
+            <div class="output-card">
+                <h3>🎼 Brand Soundscape Prompt</h3>
+                <div class="prompt-output" id="soundscapeOutput"></div>
+                <button class="copy-btn" onclick="copyToClipboard('soundscapeOutput', this)">📋 Kopioi</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const stylePresets = {
+            "Soft Clean": {
+                sonic_logo: {
+                    style_description_fi: "pehmeä, lämmin, minimal",
+                    style_description_en: "soft, warm, minimal",
+                    instruments_fi: "pehmeä piano ja ilmavat padit",
+                    instruments_en: "soft piano and airy pads",
+                    extra_mood_fi: "lämmin, hellä",
+                    extra_mood_en: "warm, gentle"
+                },
+                soundscape: {
+                    tempo_range_bpm: "60-80",
+                    instruments_fi: "piano, padit, kevyt ambient-tekstuuri",
+                    instruments_en: "piano, pads, light ambient texture"
+                }
+            },
+            "Modern Tech": {
+                sonic_logo: {
+                    style_description_fi: "moderni, digitaalinen, futuristinen",
+                    style_description_en: "modern, digital, futuristic",
+                    instruments_fi: "modernit synat ja digitaalinen tekstuuri",
+                    instruments_en: "modern synths and digital textures",
+                    extra_mood_fi: "futuristinen, tarkka",
+                    extra_mood_en: "futuristic, precise"
+                },
+                soundscape: {
+                    tempo_range_bpm: "90-110",
+                    instruments_fi: "synat, digitaalinen groove, nykyaikainen soundi",
+                    instruments_en: "synths, digital groove, modern sound"
+                }
+            },
+            "Urban Energy": {
+                sonic_logo: {
+                    style_description_fi: "rytminen, urbaani, luova",
+                    style_description_en: "rhythmic, urban, creative",
+                    instruments_fi: "pehmeä beat ja modernit synat",
+                    instruments_en: "soft beat and modern synths",
+                    extra_mood_fi: "luova, energinen",
+                    extra_mood_en: "creative, energetic"
+                },
+                soundscape: {
+                    tempo_range_bpm: "85-100",
+                    instruments_fi: "lo-fi / hiphop-henkinen tausta, pehmeä beat",
+                    instruments_en: "lo-fi / hip hop style background, soft beat"
+                }
+            }
+        };
+        
+        // Style card selection
+        document.querySelectorAll('.style-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.style-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('selectedStyle').value = this.dataset.style;
+            });
+        });
+        
+        // Language toggle
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('selectedLanguage').value = this.dataset.lang;
+            });
+        });
+        
+        // Form submission
+        document.getElementById('brandingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const brandName = document.getElementById('brandName').value.trim();
+            const brandDescription = document.getElementById('brandDescription').value.trim();
+            const mood1 = document.getElementById('mood1').value.trim();
+            const mood2 = document.getElementById('mood2').value.trim();
+            const mood3 = document.getElementById('mood3').value.trim();
+            const style = document.getElementById('selectedStyle').value;
+            const useCase = document.getElementById('useCase').value.trim();
+            const duration = document.getElementById('duration').value;
+            const language = document.getElementById('selectedLanguage').value;
+            
+            if (!style) {
+                alert('Valitse tyyli!');
+                return;
+            }
+            
+            const moodWords = `${mood1}, ${mood2}, ${mood3}`;
+            const preset = stylePresets[style];
+            
+            let sonicLogoPrompt = '';
+            let soundscapePrompt = '';
+            
+            if (language === 'FI' || language === 'FI+EN') {
+                sonicLogoPrompt += `Sonic logo pienelle yritykselle.
+Brändi: ${brandDescription}.`;
+                if (brandName) {
+                    sonicLogoPrompt += `\nNimi (valinnainen): ${brandName}.`;
+                }
+                sonicLogoPrompt += `
+Tyyli: ${style} – ${preset.sonic_logo.style_description_fi}.
+Tavoitefiilis: ${moodWords} + ${preset.sonic_logo.extra_mood_fi}.
+
+Kesto: 2–4 sekuntia.
+3–6 selkeää nuottia, yksinkertainen, helposti muistettava melodia.
+
+Soundimaailma: ${preset.sonic_logo.instruments_fi}.
+Ei laulua, ei puhetta.
+
+Tee 3 versiota samasta ideasta.`;
+
+                soundscapePrompt += `Brand soundscape pienelle yritykselle.
+Brändi: ${brandDescription}.`;
+                if (brandName) {
+                    soundscapePrompt += `\nNimi (valinnainen): ${brandName}.`;
+                }
+                soundscapePrompt += `
+Tyyli: ${style} – ${preset.sonic_logo.style_description_fi}.
+Tavoitefiilis: ${moodWords} + ${preset.sonic_logo.extra_mood_fi}.
+Käyttö: ${useCase}.
+
+Kesto: ${duration} sekuntia.
+Helppo loopata, ei suuria muutoksia.
+
+Tempo: ${preset.soundscape.tempo_range_bpm} bpm.
+Soundimaailma: ${preset.soundscape.instruments_fi}.
+Ei laulua, ei puhetta.
+
+Tee 2 versiota: V1 rauhallisempi, V2 hieman energisempi.`;
+            }
+            
+            if (language === 'FI+EN') {
+                sonicLogoPrompt += '\n\n---\n\n';
+                soundscapePrompt += '\n\n---\n\n';
+            }
+            
+            if (language === 'EN' || language === 'FI+EN') {
+                sonicLogoPrompt += `Create a **2–4 second sonic logo** for a small business.
+Brand: ${brandDescription}.`;
+                if (brandName) {
+                    sonicLogoPrompt += `\nName (optional): ${brandName}.`;
+                }
+                sonicLogoPrompt += `
+Style: ${style} – ${preset.sonic_logo.style_description_en}.
+Mood: ${moodWords} + ${preset.sonic_logo.extra_mood_en}.
+
+Length: 2–4 seconds.
+3–6 clear notes, simple and memorable melody.
+
+Sound design: ${preset.sonic_logo.instruments_en}.
+No vocals, no speech.
+
+Generate 3 variations of the same idea.`;
+
+                soundscapePrompt += `Create a **brand soundscape** for a small business.
+Brand: ${brandDescription}.`;
+                if (brandName) {
+                    soundscapePrompt += `\nName (optional): ${brandName}.`;
+                }
+                soundscapePrompt += `
+Style: ${style} – ${preset.sonic_logo.style_description_en}.
+Mood: ${moodWords} + ${preset.sonic_logo.extra_mood_en}.
+Usage: ${useCase}.
+
+Length: ${duration} seconds.
+Easy to loop, no big dramatic changes.
+
+Tempo: ${preset.soundscape.tempo_range_bpm} bpm.
+Sound palette: ${preset.soundscape.instruments_en}.
+No vocals, no speech.
+
+Generate 2 versions: V1 more calm, V2 slightly more energetic.`;
+            }
+            
+            document.getElementById('sonicLogoOutput').textContent = sonicLogoPrompt;
+            document.getElementById('soundscapeOutput').textContent = soundscapePrompt;
+            document.getElementById('outputSection').classList.add('visible');
+            
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        
+        function copyToClipboard(elementId, button) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Kopioitu!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
