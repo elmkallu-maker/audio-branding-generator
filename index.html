@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="fi" id="htmlTag">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Branding Generator – Luo sonic logo ja soundscape 3 minuutissa</title>
+    <title id="pageTitle">Audio Branding Generator – Luo sonic logo ja soundscape 3 minuutissa</title>
     <style>
         :root {
             --color-primary: #21808d;
@@ -285,36 +285,36 @@
 <body>
     <div class="container">
         <div class="hero">
-            <h1>🎵 Audio Branding Generator</h1>
-            <p class="subtitle">Luo pro-tason sonic logo ja brand soundscape 3 minuutissa</p>
+            <h1 id="mainTitle">🎵 Audio Branding Generator</h1>
+            <p class="subtitle" id="subtitle">Luo pro-tason sonic logo ja brand soundscape 3 minuutissa</p>
         </div>
         
         <div class="generator-card">
             <form id="brandingForm">
                 <div class="form-group">
-                    <label for="brandName">Brändin nimi (valinnainen)</label>
+                    <label for="brandName" id="labelBrandName">Brändin nimi (valinnainen)</label>
                     <input type="text" id="brandName" placeholder="Esim. Black Needle Ink">
-                    <p class="hint">Jätä tyhjäksi jos et halua nimeä promptiin</p>
+                    <p class="hint" id="hintBrandName">Jätä tyhjäksi jos et halua nimeä promptiin</p>
                 </div>
                 
                 <div class="form-group">
-                    <label for="brandDescription">Lyhyt kuvaus brändistä *</label>
+                    <label for="brandDescription" id="labelBrandDescription">Lyhyt kuvaus brändistä *</label>
                     <textarea id="brandDescription" required placeholder="Esim. moderni underground-blackwork-tatuointistudio Helsingissä"></textarea>
-                    <p class="hint">Kerro lyhyesti mitä brändi tekee ja millainen se on</p>
+                    <p class="hint" id="hintBrandDescription">Kerro lyhyesti mitä brändi tekee ja millainen se on</p>
                 </div>
                 
                 <div class="form-group">
-                    <label>3 fiilissanaa *</label>
+                    <label id="labelMoodWords">3 fiilissanaa *</label>
                     <div class="mood-inputs">
                         <input type="text" id="mood1" required placeholder="Esim. underground">
                         <input type="text" id="mood2" required placeholder="Esim. black">
                         <input type="text" id="mood3" required placeholder="Esim. metal">
                     </div>
-                    <p class="hint">Kolme sanaa jotka kuvaavat brändin tunnelmaa</p>
+                    <p class="hint" id="hintMoodWords">Kolme sanaa jotka kuvaavat brändin tunnelmaa</p>
                 </div>
                 
                 <div class="form-group">
-                    <label>Valitse tyyli *</label>
+                    <label id="labelStyle">Valitse tyyli *</label>
                     <div class="style-options">
                         <div class="style-card" data-style="Soft Clean">
                             <h3>☁️ Soft Clean</h3>
@@ -333,15 +333,15 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="useCase">Soundscapen käyttö *</label>
+                    <label for="useCase" id="labelUseCase">Soundscapen käyttö *</label>
                     <input type="text" id="useCase" required placeholder="Esim. odotusmusiikki, YouTube-intro, Reels-tausta">
-                    <p class="hint">Mihin aiot käyttää soundscapea?</p>
+                    <p class="hint" id="hintUseCase">Mihin aiot käyttää soundscapea?</p>
                 </div>
                 
                 <div class="form-group">
-                    <label for="duration">Soundscapen kesto *</label>
+                    <label for="duration" id="labelDuration">Soundscapen kesto *</label>
                     <select id="duration" required>
-                        <option value="">Valitse kesto</option>
+                        <option value="" id="optionSelectDuration">Valitse kesto</option>
                         <option value="30">30 sekuntia</option>
                         <option value="60" selected>60 sekuntia</option>
                         <option value="90">90 sekuntia</option>
@@ -349,35 +349,141 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>Kieli *</label>
+                    <label id="labelLanguage">Kieli *</label>
                     <div class="language-toggle">
-                        <button type="button" class="lang-btn active" data-lang="FI">🇫🇮 Suomi</button>
-                        <button type="button" class="lang-btn" data-lang="EN">🇬🇧 English</button>
-                        <button type="button" class="lang-btn" data-lang="FI+EN">🌍 Molemmat</button>
+                        <button type="button" class="lang-btn active" data-lang="FI" onclick="changeUILanguage('FI')">🇫🇮 Suomi</button>
+                        <button type="button" class="lang-btn" data-lang="EN" onclick="changeUILanguage('EN')">🇬🇧 English</button>
                     </div>
                     <input type="hidden" id="selectedLanguage" value="FI">
                 </div>
                 
-                <button type="submit" class="btn">🚀 Generoi Promptit</button>
+                <button type="submit" class="btn" id="btnGenerate">🚀 Generoi Promptit</button>
             </form>
         </div>
         
         <div class="output-section" id="outputSection">
             <div class="output-card">
-                <h3>🎵 Sonic Logo Prompt</h3>
+                <h3 id="outputTitleSonic">🎵 Sonic Logo Prompt</h3>
                 <div class="prompt-output" id="sonicLogoOutput"></div>
-                <button class="copy-btn" onclick="copyToClipboard('sonicLogoOutput', this)">📋 Kopioi</button>
+                <button class="copy-btn" onclick="copyToClipboard('sonicLogoOutput', this)" id="btnCopySonic">📋 Kopioi</button>
             </div>
             
             <div class="output-card">
-                <h3>🎼 Brand Soundscape Prompt</h3>
+                <h3 id="outputTitleSoundscape">🎼 Brand Soundscape Prompt</h3>
                 <div class="prompt-output" id="soundscapeOutput"></div>
-                <button class="copy-btn" onclick="copyToClipboard('soundscapeOutput', this)">📋 Kopioi</button>
+                <button class="copy-btn" onclick="copyToClipboard('soundscapeOutput', this)" id="btnCopySoundscape">📋 Kopioi</button>
             </div>
         </div>
     </div>
     
     <script>
+        // UI translations
+        const translations = {
+            FI: {
+                pageTitle: "Audio Branding Generator – Luo sonic logo ja soundscape 3 minuutissa",
+                mainTitle: "🎵 Audio Branding Generator",
+                subtitle: "Luo pro-tason sonic logo ja brand soundscape 3 minuutissa",
+                labelBrandName: "Brändin nimi (valinnainen)",
+                placeholderBrandName: "Esim. Black Needle Ink",
+                hintBrandName: "Jätä tyhjäksi jos et halua nimeä promptiin",
+                labelBrandDescription: "Lyhyt kuvaus brändistä *",
+                placeholderBrandDescription: "Esim. moderni underground-blackwork-tatuointistudio Helsingissä",
+                hintBrandDescription: "Kerro lyhyesti mitä brändi tekee ja millainen se on",
+                labelMoodWords: "3 fiilissanaa *",
+                placeholderMood1: "Esim. underground",
+                placeholderMood2: "Esim. black",
+                placeholderMood3: "Esim. metal",
+                hintMoodWords: "Kolme sanaa jotka kuvaavat brändin tunnelmaa",
+                labelStyle: "Valitse tyyli *",
+                labelUseCase: "Soundscapen käyttö *",
+                placeholderUseCase: "Esim. odotusmusiikki, YouTube-intro, Reels-tausta",
+                hintUseCase: "Mihin aiot käyttää soundscapea?",
+                labelDuration: "Soundscapen kesto *",
+                optionSelectDuration: "Valitse kesto",
+                labelLanguage: "Kieli *",
+                btnGenerate: "🚀 Generoi Promptit",
+                outputTitleSonic: "🎵 Sonic Logo Prompt",
+                outputTitleSoundscape: "🎼 Brand Soundscape Prompt",
+                btnCopy: "📋 Kopioi",
+                btnCopied: "✅ Kopioitu!",
+                alertSelectStyle: "Valitse tyyli!"
+            },
+            EN: {
+                pageTitle: "Audio Branding Generator – Create sonic logo and soundscape in 3 minutes",
+                mainTitle: "🎵 Audio Branding Generator",
+                subtitle: "Create professional sonic logo and brand soundscape in 3 minutes",
+                labelBrandName: "Brand name (optional)",
+                placeholderBrandName: "E.g. Black Needle Ink",
+                hintBrandName: "Leave empty if you don't want the name in the prompt",
+                labelBrandDescription: "Brief brand description *",
+                placeholderBrandDescription: "E.g. modern underground blackwork tattoo studio in Helsinki",
+                hintBrandDescription: "Briefly describe what the brand does and what it's like",
+                labelMoodWords: "3 mood words *",
+                placeholderMood1: "E.g. underground",
+                placeholderMood2: "E.g. black",
+                placeholderMood3: "E.g. metal",
+                hintMoodWords: "Three words that describe the brand's atmosphere",
+                labelStyle: "Select style *",
+                labelUseCase: "Soundscape usage *",
+                placeholderUseCase: "E.g. waiting music, YouTube intro, Reels background",
+                hintUseCase: "How will you use the soundscape?",
+                labelDuration: "Soundscape duration *",
+                optionSelectDuration: "Select duration",
+                labelLanguage: "Language *",
+                btnGenerate: "🚀 Generate Prompts",
+                outputTitleSonic: "🎵 Sonic Logo Prompt",
+                outputTitleSoundscape: "🎼 Brand Soundscape Prompt",
+                btnCopy: "📋 Copy",
+                btnCopied: "✅ Copied!",
+                alertSelectStyle: "Select a style!"
+            }
+        };
+        
+        let currentUILanguage = 'FI';
+        
+        function changeUILanguage(lang) {
+            currentUILanguage = lang;
+            const t = translations[lang];
+            
+            // Update page
+            document.getElementById('htmlTag').setAttribute('lang', lang.toLowerCase());
+            document.getElementById('pageTitle').textContent = t.pageTitle;
+            document.getElementById('mainTitle').textContent = t.mainTitle;
+            document.getElementById('subtitle').textContent = t.subtitle;
+            
+            // Update form labels
+            document.getElementById('labelBrandName').textContent = t.labelBrandName;
+            document.getElementById('brandName').setAttribute('placeholder', t.placeholderBrandName);
+            document.getElementById('hintBrandName').textContent = t.hintBrandName;
+            
+            document.getElementById('labelBrandDescription').textContent = t.labelBrandDescription;
+            document.getElementById('brandDescription').setAttribute('placeholder', t.placeholderBrandDescription);
+            document.getElementById('hintBrandDescription').textContent = t.hintBrandDescription;
+            
+            document.getElementById('labelMoodWords').textContent = t.labelMoodWords;
+            document.getElementById('mood1').setAttribute('placeholder', t.placeholderMood1);
+            document.getElementById('mood2').setAttribute('placeholder', t.placeholderMood2);
+            document.getElementById('mood3').setAttribute('placeholder', t.placeholderMood3);
+            document.getElementById('hintMoodWords').textContent = t.hintMoodWords;
+            
+            document.getElementById('labelStyle').textContent = t.labelStyle;
+            document.getElementById('labelUseCase').textContent = t.labelUseCase;
+            document.getElementById('useCase').setAttribute('placeholder', t.placeholderUseCase);
+            document.getElementById('hintUseCase').textContent = t.hintUseCase;
+            
+            document.getElementById('labelDuration').textContent = t.labelDuration;
+            document.getElementById('optionSelectDuration').textContent = t.optionSelectDuration;
+            document.getElementById('labelLanguage').textContent = t.labelLanguage;
+            
+            document.getElementById('btnGenerate').textContent = t.btnGenerate;
+            
+            // Update output titles
+            document.getElementById('outputTitleSonic').textContent = t.outputTitleSonic;
+            document.getElementById('outputTitleSoundscape').textContent = t.outputTitleSoundscape;
+            document.getElementById('btnCopySonic').textContent = t.btnCopy;
+            document.getElementById('btnCopySoundscape').textContent = t.btnCopy;
+        }
+        
         const stylePresets = {
             "Soft Clean": {
                 sonic_logo: {
@@ -435,7 +541,7 @@
             });
         });
         
-        // Language toggle
+        // Language toggle (now handled by changeUILanguage function)
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
@@ -459,7 +565,7 @@
             const language = document.getElementById('selectedLanguage').value;
             
             if (!style) {
-                alert('Valitse tyyli!');
+                alert(translations[currentUILanguage].alertSelectStyle);
                 return;
             }
             
@@ -469,7 +575,7 @@
             let sonicLogoPrompt = '';
             let soundscapePrompt = '';
             
-            if (language === 'FI' || language === 'FI+EN') {
+            if (language === 'FI') {
                 sonicLogoPrompt += `Sonic logo pienelle yritykselle.
 Brändi: ${brandDescription}.`;
                 if (brandName) {
@@ -505,15 +611,8 @@ Soundimaailma: ${preset.soundscape.instruments_fi}.
 Ei laulua, ei puhetta.
 
 Tee 2 versiota: V1 rauhallisempi, V2 hieman energisempi.`;
-            }
-            
-            if (language === 'FI+EN') {
-                sonicLogoPrompt += '\n\n---\n\n';
-                soundscapePrompt += '\n\n---\n\n';
-            }
-            
-            if (language === 'EN' || language === 'FI+EN') {
-                sonicLogoPrompt += `Create a **2–4 second sonic logo** for a small business.
+            } else if (language === 'EN') {
+                sonicLogoPrompt = `Create a **2–4 second sonic logo** for a small business.
 Brand: ${brandDescription}.`;
                 if (brandName) {
                     sonicLogoPrompt += `\nName (optional): ${brandName}.`;
@@ -530,7 +629,7 @@ No vocals, no speech.
 
 Generate 3 variations of the same idea.`;
 
-                soundscapePrompt += `Create a **brand soundscape** for a small business.
+                soundscapePrompt = `Create a **brand soundscape** for a small business.
 Brand: ${brandDescription}.`;
                 if (brandName) {
                     soundscapePrompt += `\nName (optional): ${brandName}.`;
@@ -561,11 +660,11 @@ Generate 2 versions: V1 more calm, V2 slightly more energetic.`;
             const text = document.getElementById(elementId).textContent;
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = button.textContent;
-                button.textContent = '✅ Kopioitu!';
+                button.textContent = translations[currentUILanguage].btnCopied;
                 button.classList.add('copied');
                 
                 setTimeout(() => {
-                    button.textContent = originalText;
+                    button.textContent = translations[currentUILanguage].btnCopy;
                     button.classList.remove('copied');
                 }, 2000);
             });
